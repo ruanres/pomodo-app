@@ -1,15 +1,15 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useState, useContext} from 'react';
 import { ThemeVariants } from '../../enums';
-
-type Theme = {
-  variant: ThemeVariants
-}
 
 const DEFAULT_VALUE = {
   theme: {
     variant: ThemeVariants.LIGHT,
   },
   setTheme: () => {}
+}
+
+type Theme = {
+  variant: ThemeVariants
 }
 
 type PropsThemeContext = {
@@ -28,5 +28,10 @@ const ThemeContextProvider: React.FC = ({ children }) => {
   );
 }
 
-export {ThemeContextProvider}
+const useTheme = () => {
+  const {theme, setTheme} = useContext(ThemeContext);
+  return {theme, setTheme};
+}
+
+export {ThemeContextProvider, useTheme}
 export default ThemeContext
