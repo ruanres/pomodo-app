@@ -1,8 +1,8 @@
 import React, {createContext, useState} from 'react';
 
 enum ThemeVariants {
-  LIGHT,
-  DARK
+  LIGHT="LIGHT",
+  DARK="DARK"
 }
 
 type Theme = {
