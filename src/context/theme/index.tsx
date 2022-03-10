@@ -1,9 +1,5 @@
 import React, {createContext, useState} from 'react';
-
-enum ThemeVariants {
-  LIGHT="LIGHT",
-  DARK="DARK"
-}
+import { ThemeVariants } from '../../enums';
 
 type Theme = {
   variant: ThemeVariants
