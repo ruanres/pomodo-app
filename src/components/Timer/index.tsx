@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '../Button';
 import './timer.css';
+import useInterval, { Delay } from '../../hooks/useInterval';
 
 const formatToTen = (count: number) => {
-  return count < 10 ? `0${count}` : count;
+  return count.toString().padStart(2, '0');
 };
 const getMinutes = (counter: number) => {
   const ONE_MINUTE = 60;
@@ -11,32 +12,21 @@ const getMinutes = (counter: number) => {
   const seconds = counter % ONE_MINUTE;
   return `${formatToTen(minutes)}:${formatToTen(seconds)}`;
 };
-type Status = 'start' | 'pause';
 
 const Timer = () => {
   const [counter, setCounter] = useState(0);
-  const [status, setStatus] = useState<Status>('pause');
-  const intervalId = useRef(0);
+  const [delay, setDelay] = useState<Delay>(null);
 
-  useEffect(() => {
-    if (status === 'start') {
-      const id = window.setInterval(() => {
-        setCounter((current) => current + 1);
-      }, 1000);
-      intervalId.current = id;
-    } else if (status === 'pause') {
-      window.clearInterval(intervalId.current);
-    }
-
-    return () => window.clearInterval(intervalId.current);
-  }, [status]);
+  useInterval(() => {
+    setCounter((current) => current + 1);
+  }, delay);
 
   return (
     <div className="timer">
       <div className="time">{getMinutes(counter)}</div>
       <div className="buttons">
-        <Button label="work" onClick={() => setStatus('start')} />
-        <Button label="rest" onClick={() => setStatus('pause')} />
+        <Button label="work" onClick={() => setDelay(1000)} />
+        <Button label="pause" onClick={() => setDelay(null)} />
       </div>
     </div>
   );
