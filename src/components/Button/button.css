@@ -1,0 +1,12 @@
+button {
+  width: 7em;
+  height: 3em;
+  font-size: 1em;
+  text-transform: uppercase;
+  background-color: #00ffcc;
+}
+
+.working button {
+  background-color: #ff003c;
+  color: #fff;
+}

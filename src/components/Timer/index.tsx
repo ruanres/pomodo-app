@@ -2,18 +2,15 @@ import React, { useState } from 'react';
 import Button from '../Button';
 import './timer.css';
 import useInterval, { Delay } from '../../hooks/useInterval';
+import secondsToTime from '../../utils/secondsToTime';
 
-const formatToTen = (count: number) => {
-  return count.toString().padStart(2, '0');
+type Timer = {
+  pomodoroTime: number;
+  shortRestTime: number;
+  longRestTime: number;
+  cycles: number;
 };
-const getMinutes = (counter: number) => {
-  const ONE_MINUTE = 60;
-  const minutes = Math.floor(counter / ONE_MINUTE);
-  const seconds = counter % ONE_MINUTE;
-  return `${formatToTen(minutes)}:${formatToTen(seconds)}`;
-};
-
-const Timer = () => {
+const Timer = (props: Timer) => {
   const [counter, setCounter] = useState(0);
   const [delay, setDelay] = useState<Delay>(null);
 
@@ -23,7 +20,7 @@ const Timer = () => {
 
   return (
     <div className="timer">
-      <div className="time">{getMinutes(counter)}</div>
+      <div className="time">{secondsToTime(counter)}</div>
       <div className="buttons">
         <Button label="work" onClick={() => setDelay(1000)} />
         <Button label="pause" onClick={() => setDelay(null)} />
