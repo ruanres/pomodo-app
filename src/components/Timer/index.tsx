@@ -18,16 +18,33 @@ const Timer = (props: Timer) => {
   const [working, setWorking] = useState(false);
   const [timeCounting, setTimeCounting] = useState(false);
   const [userState, setUserState] = useState<UserState>('resting');
+  const [pomodoros, setPomodoros] = useState(0);
+  const [completedCycles, setCompletedCycles] = useState(0);
 
   useEffect(() => {
     document.body.setAttribute('class', working ? 'working' : '');
     setUserState(working ? 'working' : 'resting');
-  }, [working]);
+
+    const timeIsOver = counter <= 0;
+    if (timeIsOver) {
+      if (working) {
+        const increasedPomodoro = pomodoros + 1;
+        setPomodoros(increasedPomodoro);
+        const isCycleCompleted = increasedPomodoro % props.cycles === 0;
+        if (isCycleCompleted) {
+          startResting(true);
+          setCompletedCycles((quantity) => quantity + 1);
+        } else {
+          startResting(false);
+        }
+      } else {
+        startWorking();
+      }
+    }
+  }, [working, counter, pomodoros, props.cycles]);
 
   useInterval(
-    () => {
-      setCounter((current) => current - 1);
-    },
+    () => setCounter((current) => current - 1),
     timeCounting ? 1000 : null,
   );
 
@@ -54,6 +71,14 @@ const Timer = (props: Timer) => {
           label={timeCounting ? 'pause' : 'resume'}
           onClick={() => setTimeCounting(!timeCounting)}
         />
+      </div>
+      <div className="details">
+        <h3>Details:</h3>
+        <h4>Completed Cycles: {completedCycles}</h4>
+        <h4>
+          Total Working time: {secondsToTime(props.pomodoroTime * pomodoros)}
+        </h4>
+        <h4>Pomodoros: {pomodoros}</h4>
       </div>
     </div>
   );
