@@ -16,3 +16,7 @@
   align-items: center;
   width: 100%;
 }
+
+.user-state {
+  text-transform: uppercase;
+}

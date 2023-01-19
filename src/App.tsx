@@ -11,7 +11,6 @@ function App() {
   return (
     <div className="Pomodoro">
       <div className="counter-container">
-        <h2>You are: Resting</h2>
         <Timer
           pomodoroTime={MINUTES_25}
           shortRestTime={MINUTES_5}
